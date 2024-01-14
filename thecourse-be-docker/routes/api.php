@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::controller(UserController::class)->group(function () {
-    Route::get('/getData', 'index');
-    Route::post('/getData', 'create');
+    Route::get('/getDataUser', 'index');
+    Route::post('/addNewUser', 'create');
+});
+Route::controller(RoleController::class)->group(function () {
+    Route::get('/getDataRole', 'index');
 });
