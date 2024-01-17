@@ -10,5 +10,11 @@ class RoleM extends Model
     use HasFactory;
     protected $table = 'role';
     protected $fillable = 
-    ['id', 'name', 'status','created_at','updated_at'];
+    [
+        'id', 
+        'name', 
+        'status',
+        'created_at',
+        'updated_at'];
+
 }

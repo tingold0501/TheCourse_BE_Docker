@@ -24,4 +24,5 @@ Route::controller(UserController::class)->group(function () {
 });
 Route::controller(RoleController::class)->group(function () {
     Route::get('/getDataRole', 'index');
+    Route::post('/addRole', 'create');
 });
