@@ -24,6 +24,7 @@ Route::controller(UserController::class)->group(function () {
 });
 Route::controller(RoleController::class)->group(function () {
     Route::get('/getDataRole', 'index');
+    Route::get('/getActiveRole', 'getActiveRole');
     Route::post('/addRole', 'create');
     Route::post('/deleteRole', 'delete');
     Route::post('/updateRoleName', 'updateRoleName');

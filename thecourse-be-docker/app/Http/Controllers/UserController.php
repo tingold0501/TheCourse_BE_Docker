@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     /**
@@ -20,9 +21,28 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|unique:users,phone',
+            'idRole' => 'required|exists:role,id',
+        ],[
+            'name.required' => 'Tên Không Được Trống',
+            'email.required' => 'Email Không Được Trống',
+            'email.email' => 'Email Không Phải Dạng Email',
+            'email.unique' => 'Email Đã Tồn Tại',
+            'phone.required' => 'Phone Đang Trống',
+            'phone.unique' => 'Số Điện Thoại Đã Tồn Tại',
+            'idRole.required' => 'Mã Role Không Được Trống',
+            'idRole.exists' => 'Mã Loại Không Tồn Tại',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['check' => false, 'msg' => $validator->errors()]);
+        }
+        User::create(['name' => $request->name, 'email' => $request->email, 'phone' =>$request->phone, 'idRole' =>$request->idRole]);
+        return response()->json(['check' => true, 'msg' => 'Đăng Ký Thành Công']);
     }
 
     /**

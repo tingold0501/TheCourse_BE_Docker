@@ -14,10 +14,13 @@ class RoleController extends Controller
      */
     public function index()
     {
-        // $result = RoleM::where('status',1)->get();
         $result = RoleM::all();
         return response()->json($result);
         dd($result);
+    }
+    public function getActiveRole(){
+        $result = RoleM::where('status',1)->get();
+        return response()->json($result);
     }
 
     /**
