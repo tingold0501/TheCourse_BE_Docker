@@ -6,6 +6,7 @@ use App\Models\RoleM;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Auth\User;
 class RoleController extends Controller
 {
     /**
@@ -35,6 +36,27 @@ class RoleController extends Controller
         }
         RoleM::create(['name'=>$request->roleName]);
         return response()->json(['check'=>true,'msg'=>'Thêm Role Thành Công']);
+    }
+
+    public function delete (Request $request,RoleM $roleM){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:role,id',
+        ],[
+            'id.required' => 'ID Role không được trống',
+            'id.exists' => 'ID Role đang tồn tại',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['check' => false, 'msg' => $validator->errors()]);
+        }
+        $check=User::where('idRole',$request->id)->count('id');
+        if($check!=0){
+            return response()->json(['check'=>false,'msg'=>'Có tài khoản tồn tại trong loại này']);
+        }
+        if($request->id ==1||$request->id==2||$request->id==3){
+            return response()->json(['check'=>false,'msg'=>'Không được xoá']);
+       }
+        RoleM::where('id',$request->id)->delete();
+        return response()->json(['check'=>true]);
     }
 
     /**
