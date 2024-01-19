@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('idRole');
+            // $table->integer('idRole');
             $table->boolean('status');
             $table->char('phone', 10);
             $table->char('avatar', 255);
