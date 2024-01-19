@@ -14,7 +14,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $result = RoleM::where('status',1)->get();
+        // $result = RoleM::where('status',1)->get();
+        $result = RoleM::all();
         return response()->json($result);
         dd($result);
     }
@@ -59,6 +60,37 @@ class RoleController extends Controller
         return response()->json(['check'=>true]);
     }
 
+    public function updateRoleName (Request $request,RoleM $roleM){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:role,id',
+            'nameRole' => 'required|unique:role,name',
+        ],[
+            'id.required' => 'ID Role không được trống',
+            'id.exists' => 'ID Role đang tồn tại',
+            'nameRole.required' => 'Tên Role Đã Tồn Tại',
+            'nameRole.unique' => 'Tên Role đang tồn tại',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['check' => false, 'msg' => $validator->errors()]);
+        }
+        RoleM::where('id',$request->id)->update(['name'=>$request->nameRole]);
+        return response()->json(['check'=> true, 'msg' => 'Thay Đổi Thành Công']);
+    }
+    public function updateStatus (Request $request,RoleM $roleM){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:role,id',
+            'status' => 'required|numeric|min:0|max:1',
+        ],[
+            'id.required' => 'ID Role không được trống',
+            'id.exists' => 'ID Role đang tồn tại',
+            'status.required' => 'Trạng thái rỗng',
+            'status.numeric' => 'Trạng thái không hợp lệ',
+            'status.min' => 'Trạng thái không hợp lệ',
+            'status.max' => 'Trạng thái không hợp lệ',
+        ]);
+        RoleM::where('id',$request->id)->update(['status'=>$request->status]);
+        return response()->json(['check'=>true]);
+    }
     /**
      * Store a newly created resource in storage.
      */
