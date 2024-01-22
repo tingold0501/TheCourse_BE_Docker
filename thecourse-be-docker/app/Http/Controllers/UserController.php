@@ -41,7 +41,8 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['check' => false, 'msg' => $validator->errors()]);
         }
-        User::create(['name' => $request->name, 'email' => $request->email, 'phone' =>$request->phone, 'idRole' =>$request->idRole]);
+        $password = random_int(10000, 99999);
+        User::create(['name' => $request->name, 'email' => $request->email, 'phone' =>$request->phone,'password'=>$password, 'idRole' =>$request->idRole]);
         return response()->json(['check' => true, 'msg' => 'Đăng Ký Thành Công']);
     }
 
