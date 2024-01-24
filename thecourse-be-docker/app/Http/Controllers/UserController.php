@@ -27,7 +27,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|unique:users,phone',
-            'idRole' => 'required|exists:role,id',
+            'idRole' => 'required|exists:roles,id',
         ],[
             'name.required' => 'Tên Không Được Trống',
             'email.required' => 'Email Không Được Trống',
@@ -42,7 +42,7 @@ class UserController extends Controller
             return response()->json(['check' => false, 'msg' => $validator->errors()]);
         }
         $password = random_int(10000, 99999);
-        User::create(['name' => $request->name, 'email' => $request->email, 'phone' =>$request->phone,'password'=>$password, 'idRole' =>$request->idRole]);
+        User::create(['name' => $request->name, 'email' => $request->email, 'phone' =>$request->phone,'password'=>$password, 'role_id' =>$request->idRole]);
         return response()->json(['check' => true, 'msg' => 'Đăng Ký Thành Công']);
     }
 

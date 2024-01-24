@@ -29,7 +29,7 @@ class RoleController extends Controller
     public function create(Request $request,RoleM $roleM)
     {
         $validator = Validator::make($request->all(), [
-            'roleName' => 'required|unique:role,name',
+            'roleName' => 'required|unique:roles,name',
         ],[
             'roleName.required' => 'Tên Role không được trống',
             'roleName.unique' => 'Tên Role đang tồn tại',
@@ -44,7 +44,7 @@ class RoleController extends Controller
 
     public function delete (Request $request,RoleM $roleM){
         $validator = Validator::make($request->all(), [
-            'id' => 'required|exists:role,id',
+            'id' => 'required|exists:roles,id',
         ],[
             'id.required' => 'ID Role không được trống',
             'id.exists' => 'ID Role đang tồn tại',
@@ -65,8 +65,8 @@ class RoleController extends Controller
 
     public function updateRoleName (Request $request,RoleM $roleM){
         $validator = Validator::make($request->all(), [
-            'id' => 'required|exists:role,id',
-            'nameRole' => 'required|unique:role,name',
+            'id' => 'required|exists:roles,id',
+            'nameRole' => 'required|unique:roles,name',
         ],[
             'id.required' => 'ID Role không được trống',
             'id.exists' => 'ID Role đang tồn tại',
@@ -81,7 +81,7 @@ class RoleController extends Controller
     }
     public function updateStatus (Request $request,RoleM $roleM){
         $validator = Validator::make($request->all(), [
-            'id' => 'required|exists:role,id',
+            'id' => 'required|exists:roles,id',
             'status' => 'required|numeric|min:0|max:1',
         ],[
             'id.required' => 'ID Role không được trống',
